@@ -29,16 +29,16 @@ class SafetyAdapter(private val memberList: UsersListModel) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = memberList[position]
         fdb = FirebaseFirestore.getInstance()
-       fdb.collection(Constants.FIRESTORE_COLLECTION)
-           .document(item.email)
-           .get()
-            .addOnSuccessListener { doc->
+        fdb.collection(Constants.FIRESTORE_COLLECTION)
+            .document(item.email)
+            .get()
+            .addOnSuccessListener { doc ->
                 val mem = doc.toObject(Users::class.java)!!
-                Log.d("Rupam  Safety Adapter "," $mem")
+                Log.d("Rupam  Safety Adapter ", " $mem")
                 holder.binding.nameModel.text = mem.name
                 holder.binding.addModel.text = "Latitude: ${mem.lat}\nLongitude: ${mem.long}"
-                holder.binding.batPerModel.text = "${mem.batPer.toString()}%"
-                holder.binding.connectionTvModel.text = "${mem.connectionInfo}"
+                holder.binding.batPerModel.text = "${mem.batPer}%"
+                holder.binding.connectionTvModel.text = mem.connectionInfo
                 holder.binding.callImgModel.setOnClickListener {
 
                     val phoneNum = mem.phoneNumber.toLong()
@@ -48,10 +48,11 @@ class SafetyAdapter(private val memberList: UsersListModel) :
 
                 }
                 holder.itemView.setOnClickListener {
-
                     val latitude = mem.lat.toDouble()
                     val longitude = mem.long.toDouble()
-                    val fragment = MapplsMapFragment.newInstance(latitude, longitude, mem.name, false)
+                    Log.d("@@@@@@@", "$mem.name $latitude $longitude ${mem.long}")
+                    val fragment =
+                        MapplsMapFragment.newInstance(latitude, longitude, mem.name, false)
 
                     val activity = it.context as AppCompatActivity
                     activity.supportFragmentManager
@@ -60,8 +61,8 @@ class SafetyAdapter(private val memberList: UsersListModel) :
                         .addToBackStack(null)
                         .commit()
                 }
-        }.addOnFailureListener {
-            Log.d("Rupam Safety Adapter Error ","${it.message}")
+            }.addOnFailureListener {
+                Log.d("Rupam Safety Adapter Error ", "${it.message}")
             }
 
     }

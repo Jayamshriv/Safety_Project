@@ -29,7 +29,7 @@ class RegisterUserActivity : AppCompatActivity() {
     private val TAG = "Register User"
     private lateinit var binding: ActivityRegisterUserBinding
     private lateinit var pickContactLauncher: ActivityResultLauncher<Intent>
-    var phoneNumber = ""
+    var phoneNum = ""
     var name=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +96,7 @@ class RegisterUserActivity : AppCompatActivity() {
                     phoneNumber = phoneNumber,
                     trustedContactID = (100..1000).random().toString(),
                     trustedContactNumber = name,
-                    trustedContactName = name
+                    trustedContactName = phoneNum
                 )
                 retrofit.registerNewUser(newUser)
                     .enqueue(object : Callback<NewUserCreatedResponse>{
@@ -115,7 +115,7 @@ class RegisterUserActivity : AppCompatActivity() {
                             )
 
                             fdb.collection(Constants.FIRESTORE_COLLECTION).document(email)
-                                .set(Users())
+                                .set(fdbData)
                                 .addOnSuccessListener {
                                     Log.d("Rupam Register","New firebase entry :$fdbData")
                                 }
@@ -186,9 +186,9 @@ class RegisterUserActivity : AppCompatActivity() {
                         )
                         phoneCursor?.use { phone ->
                             if (phone.moveToFirst()) {
-                                phoneNumber =
+                                phoneNum =
                                     phone.getString(phone.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                                binding.trustedContactNumber.setText("$name -$phoneNumber")
+                                binding.trustedContactNumber.setText("$name -$phoneNum")
                             }
                         }
                     } else {

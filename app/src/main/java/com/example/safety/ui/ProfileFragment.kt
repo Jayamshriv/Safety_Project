@@ -102,6 +102,7 @@ class ProfileFragment : Fragment() {
 
         binding.signout.setOnClickListener {
             sharedPref.putLoggedInfo(Constants.SP_LOGGED_INFO, false)
+
             val intent = Intent(requireContext(), LoginUserActivity::class.java)
             startActivity(intent)
             activity?.finishAffinity()

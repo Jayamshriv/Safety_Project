@@ -1,5 +1,6 @@
 package com.example.safety.ui
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.safety.Constants
 import com.example.safety.SharedPrefFile
 import com.example.safety.databinding.FragmentGuardBinding
 
@@ -31,10 +33,11 @@ class GuardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val sharedPref = SharedPrefFile
+        sharedPref.init(requireContext())
+        val numSOS = sharedPref.getUserData(Constants.SP_USERDATA)!!.trustedContactNumber
         binding.cvSOS.setOnClickListener {
-            SharedPrefFile.init(requireContext())
-            val numSOS = SharedPrefFile.getPhoneNum("PhoneNumberForSOS")
+
             val msg = "I am safe for now"
 
             val intent = Intent(Intent.ACTION_VIEW)
@@ -59,13 +62,10 @@ class GuardFragment : Fragment() {
         }
 
         binding.cvGuard.setOnClickListener {
-            SharedPrefFile.init(requireContext())
-            val numGuard = SharedPrefFile.getPhoneNum("PhoneNumberForGuard")
-
             val msg = "I am safe for now"
 
             val intent = Intent(Intent.ACTION_SENDTO)
-            intent.data = Uri.parse("smsto:+91$numGuard")
+            intent.data = Uri.parse("smsto:+91$numSOS")
 
             intent.putExtra("sms_body",msg)
 

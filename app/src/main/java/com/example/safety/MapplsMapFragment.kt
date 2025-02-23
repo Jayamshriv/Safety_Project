@@ -86,11 +86,9 @@ class MapplsMapFragment : Fragment() {
                     val sharedPref = SharedPrefFile.getAllUsersByOrg(Constants.SP_ALL_USERS_BY_ORG)
                     Log.d(Constants.TAG, "All users: $sharedPref")
 
-                    // Create a list to hold all our Firestore tasks
                     val firestoreTasks = mutableListOf<Task<DocumentSnapshot>>()
                     val locationMarkers = mutableListOf<LocationMarkerModel>()
 
-                    // Create all the Firestore requests
                     for (users in sharedPref!!) {
                         Log.d(Constants.TAG, "Fetching data for user: $users")
                         val fdb = FirebaseFirestore.getInstance()
@@ -100,7 +98,6 @@ class MapplsMapFragment : Fragment() {
                         firestoreTasks.add(task)
                     }
 
-                    // Wait for all requests to complete
                     Tasks.whenAllSuccess<DocumentSnapshot>(firestoreTasks)
                         .addOnSuccessListener { documents ->
                             Log.d(Constants.TAG, "All location data fetched successfully")
@@ -115,7 +112,7 @@ class MapplsMapFragment : Fragment() {
                                     Log.d(Constants.TAG, "Added marker for ${user.name}")
                                 }
                             }
-                            // Now we can safely show all markers
+
                             showMultipleLocationWithMarker(ArrayList(locationMarkers))
                         }
                         .addOnFailureListener { exception ->
@@ -127,6 +124,7 @@ class MapplsMapFragment : Fragment() {
                             ).show()
                         }
                 }else{
+                    Log.d("@@@@@@@","$latitude $markertitle $longitude")
                     showLocationWithMarker(
                         LocationMarkerModel(latitude,longitude,markertitle)
                     )
@@ -227,7 +225,7 @@ class MapplsMapFragment : Fragment() {
     companion object {
         private const val ARG_LATITUDE = "arg_latitude"
         private const val ARG_LONGITUDE = "arg_longitude"
-        private const val ARG_MARKER_TITLE = "arg_longitude"
+        private const val ARG_MARKER_TITLE = "marker_title"
         private const val IsOnDashboard = "isOnDashboard"
 
         fun newInstance(latitude: Double?, longitude: Double?, markerTitle : String?, isOnDashboard: Boolean): MapplsMapFragment {

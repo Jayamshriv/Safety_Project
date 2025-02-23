@@ -130,13 +130,14 @@
                 app:boxCornerRadiusTopStart="@dimen/text_input_layout_corner"
                 app:boxStrokeColor="@color/app_light_color"
                 app:cursorColor="@color/app_light_color"
-                app:passwordToggleEnabled="false"
+                app:passwordToggleTint="@color/app_color"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:singleLine="true"
                     android:textSize="14sp"
+                    android:inputType="textPassword"
                     android:fontFamily="@font/poppins_regular"
                     android:scrollHorizontally="true"
                     android:layout_height="wrap_content" />
@@ -203,6 +204,7 @@
                     android:layout_width="match_parent"
                     android:singleLine="true"
                     android:textSize="14sp"
+                    android:inputType="number"
                     android:fontFamily="@font/poppins_regular"
                     android:scrollHorizontally="true"
                     android:layout_height="wrap_content" />
@@ -253,12 +255,12 @@
                 app:boxStrokeColor="@color/app_light_color"
                 app:cursorColor="@color/app_light_color"
                 android:hint="Organization"
+
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:maxLines="1"
-                    android:minLines="1"
+                    android:singleLine="true"
                     android:imeOptions="actionDone"
                     android:textSize="14sp"
                     android:fontFamily="@font/poppins_regular"
@@ -288,4 +290,5 @@
 
     </androidx.cardview.widget.CardView>
     </LinearLayout>
+
 </FrameLayout>
